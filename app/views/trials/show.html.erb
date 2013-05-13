@@ -1,0 +1,17 @@
+<h1>Trial</h1>
+
+<p>
+  <b>Start</b><br>
+  <%= @trial.start_time %>
+</p>
+
+<p>
+  <b>End</b><br>
+  <%= @trial.end_time %>
+</p>
+
+<div class="form-actions">
+  <%= link_to 'Back', trials_path, :class => 'btn'  %>
+  <%= link_to 'Edit', edit_trial_path(@trial), :class => 'btn' %>
+  <%= link_to 'Delete', trial_path(@trial), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' %>
+</div>

@@ -21,11 +21,17 @@
         </a>
         <%= link_to "Drug Trial", root_path, :class => "brand" %>
         <div class="nav-collapse">
+          <% if current_user %>
+	          <p class="navbar-text pull-right">
+	            <%= current_user.email %>
+	            (<%= link_to "sign out", destroy_user_session_path, :method => :delete, :class => "navbar-link" %>)
+	          </p>
+		      <% end %>
           <ul class="nav">
-            <li><%= link_to "Admin", products_path %></li>
+            <li><%= link_to "Admin", trials_path %></li>
             <li><%= link_to "Trial" %></li>
             <li><%= link_to "Results" %></li>
-            <li><%= link_to "Contact Us" %></li>
+            <li><%= link_to "Edit User", edit_user_registration_path %></li>
           </ul>
         </div>
       </div>

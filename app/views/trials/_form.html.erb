@@ -1,0 +1,14 @@
+<%= simple_form_for @trial, :html => { :class => 'form-horizontal' } do |f| %>
+  <fieldset>
+    <legend><%= controller.action_name.capitalize %> Trial</legend>
+
+    <%= render :partial => "shared/datetime_picker", :locals => { :f => f, :time => :start_time } %>
+    <%= render :partial => "shared/datetime_picker", :locals => { :f => f, :time => :end_time } %>
+    <%= f.input :trial_period, as: :integer %>
+
+    <div class="form-actions">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to 'Cancel', trials_path, :class => 'btn' %>
+    </div>
+  </fieldset>
+<% end %>
