@@ -25,4 +25,10 @@ class TrialsController < ApplicationController
 	def show
 		@trial = Trial.find params[:id]
 	end
+
+	def destroy
+		@trial = Trial.find params[:id]
+		@trial.destroy
+		redirect_to trials_path
+	end
 end
