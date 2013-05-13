@@ -1,7 +1,5 @@
 class Trial < ActiveRecord::Base
+	validates_presence_of :start_time, :end_time, :trial_period
 
-
-	validates_presence_of :name, :price
-
-
+	has_many :questions
 end

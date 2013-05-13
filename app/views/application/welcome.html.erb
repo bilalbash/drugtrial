@@ -1,13 +1,13 @@
-<% if current_user %>
+<div class="container">
+	<h1>Drug Trial</h1>
+	<p>patient recovery tool</p>
 
-<% else %>
-	<div class="jumbotron masthead">
-	  <div class="container">
-	    <h1>Drug Trial</h1>
-	    <p>patient recovery tool</p>
+	<% unless current_user %>
+		<div class="jumbotron masthead">
 	    <p>
 	      <%= link_to "Sign Up", new_user_registration_path, :class => "btn btn-primary btn-large" %>
+	      <%= link_to "Sign In", new_user_session_path, :class => "btn btn-primary btn-large" %>
 	    </p>
-	  </div>
-	</div>
-<% end %>
+		</div>
+	<% end %>
+</div>
