@@ -1,4 +1,6 @@
 class TrialsController < ApplicationController
+	before_filter :authenticate_user!
+
 	def index
     @trials = Trial.all
 	end
@@ -11,7 +13,7 @@ class TrialsController < ApplicationController
 		@trial = Trial.new(params[:trial])
 		respond_to do |format|
 			if @trial.save
-				format.html { redirect_to trials_path, notice: 'Trial was successfully created.' }
+				format.html { redirect_to @trial, notice: 'Trial was successfully created.' }
 				format.json { render json: @trial, status: :created, location: @trial }
 			else
 				format.html { render action: "new" }

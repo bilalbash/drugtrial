@@ -8,18 +8,24 @@
       </a>
       <%= link_to "Drug Trial", root_path, :class => "brand" %>
       <div class="nav-collapse">
-        <% if current_user %>
+        <% if user_signed_in? %>
           <p class="navbar-text pull-right">
             <%= current_user.email %>
             (<%= link_to "sign out", destroy_user_session_path, :method => :delete, :class => "navbar-link" %>)
           </p>
-	      <% end %>
-        <ul class="nav">
-          <li><%= link_to "Admin", trials_path %></li>
-          <li><%= link_to "Trial" %></li>
-          <li><%= link_to "Results" %></li>
-          <li><%= link_to "Edit User", edit_user_registration_path %></li>
-        </ul>
+
+	        <ul class="nav">
+	          <li><%= link_to "Admin", trials_path %></li>
+	          <li><%= link_to "Trial" %></li>
+	          <li><%= link_to "Results" %></li>
+	          <li><%= link_to "Edit User", edit_user_registration_path %></li>
+	        </ul>
+        <% else %>
+          <ul class="nav">
+            <li><%= link_to "Sign In", new_user_session_path %></li>
+            <li><%= link_to "Sign Up", new_user_registration_path %></li>
+          </ul>
+        <% end %>
       </div>
     </div>
   </div>
