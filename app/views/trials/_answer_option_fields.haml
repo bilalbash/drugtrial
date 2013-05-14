@@ -1,0 +1,7 @@
+.fields
+  %p
+    = f.label "Answer option"
+    = f.text_area :description, rows: 1, class: "txt-area-pos"
+    = f.label "Is correct option?"
+    = f.check_box :correct_option, class: "lnk-pos1"
+    = link_to_remove_fields "-", f, { class: "btn btn-mini btn-danger btn-pos2" }

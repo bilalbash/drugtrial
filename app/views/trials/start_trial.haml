@@ -1,0 +1,18 @@
+%h1= "Start Trial"
+- unless @trials.blank?
+  %table.table.table-striped
+    %thead
+      %tr
+        %th= "ID"
+        %th
+
+    %tbody
+      - @trials.each do |trial|
+        %tr
+          %td= trial.id
+          %td
+            = link_to 'start trial', "#", :class => 'btn btn-success show-results', "data-id" => trial.id
+- else
+  %p
+    = "sorry, create trial first"
+  = link_to 'Create Trial', new_trial_path, :class => 'btn btn-primary'

@@ -1,0 +1,16 @@
+%h1= Trial
+
+%p
+  %b= "Start"
+  %br
+  = @trial.start_time
+
+%p
+  %b= "End"
+  %br
+  = @trial.end_time
+
+.form-actions
+  = link_to 'Back', trials_path, :class => 'btn'
+  -#= link_to 'Edit', edit_trial_path(@trial), :class => 'btn'
+  = link_to 'Delete', trial_path(@trial), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger'

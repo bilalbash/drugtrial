@@ -1,7 +1,12 @@
 DrugTrial::Application.routes.draw do
   devise_for :users
 
-  resources :trials
+  resources :trials do
+	  collection do
+		  get :results
+	    get :start_trial
+	  end
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

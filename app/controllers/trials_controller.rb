@@ -31,4 +31,30 @@ class TrialsController < ApplicationController
 		@trial.destroy
 		redirect_to trials_path
 	end
+
+	def edit
+		redirect_to trials_path, notice: 'not required yet'
+		@trial = Trial.find params[:id]
+	end
+
+	def update
+		@trial = Trial.find params[:id]
+    respond_to do |format|
+      if @trial.update_attributes(params[:trial])
+        format.html { redirect_to @trial, notice: 'Trial was successfully updated.' }
+        format.json { render json: @trial, status: :created, location: @trial }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @trial.errors, status: :unprocessable_entity }
+      end
+    end
+	end
+
+	def start_trial
+		@trials = Trial.all
+	end
+
+	def results
+		@trials = Trial.all
+	end
 end

@@ -1,0 +1,19 @@
+/*nested form css*/
+
+.btn-pos1{
+    float: right;
+    margin-right: 256px;
+}
+
+.btn-pos2{
+    margin-left: 20px;
+}
+
+.lnk-pos1{
+    margin-left: 20px;
+}
+
+.txt-area-pos{
+    float: left;
+    margin-left: 20px;
+}
