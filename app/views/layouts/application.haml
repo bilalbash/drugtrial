@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+%html
+  = render "header"
+%body
+  = render "navigation_bar"
+  .container
+    - flash.each do |name, msg|
+      .alert{ :class => "alert-" + ((name == :notice) ? "success" : "error") }
+        %a.close{ "data-dismiss" => "alert" }="x"
+        = msg
+    .row
+      .span9
+        = yield
+      .span3
+        %h2= "About Us"
+        %p= "about us text should be written here"

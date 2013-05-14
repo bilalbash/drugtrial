@@ -1,0 +1,24 @@
+.navbar.navbar-inverse.navbar-fixed-top
+  .navbar-inner
+    .container
+      %a.btn.btn-navbar{ "data-toggle" => "collapse", "data-target" => ".nav-collapse" }
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      = link_to "Drug Trial", root_path, :class => "brand"
+      .nav-collapse
+        - if user_signed_in?
+          %p.navbar-text.pull-right
+            = current_user.email
+            ="("
+            = link_to "sign out", destroy_user_session_path, :method => :delete, :class => "navbar-link"
+            =")"
+          %ul.nav
+            %li= link_to "Admin", trials_path
+            %li= link_to "Trial", start_trial_trials_path
+            %li= link_to "Results", results_trials_path
+            %li= link_to "Edit User", edit_user_registration_path
+        - else
+          %ul.nav
+            %li= link_to "Sign In", new_user_session_path
+            %li= link_to "Sign Up", new_user_registration_path

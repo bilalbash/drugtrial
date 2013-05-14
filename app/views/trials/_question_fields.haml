@@ -1,0 +1,11 @@
+.fields
+  = f.input :question_text, :as => :text, :input_html => { :rows => 2 }
+  = f.input :question_type, collection: Question::TYPES, default: Question::MULTI_CHOICE
+
+  %fieldset
+
+    - f.simple_fields_for :answer_options do |builder|
+      = render 'answer_option_fields', :f => builder
+    %p= link_to_add_fields "add answer", f, :answer_options, {class: "btn btn-mini btn-success btn-pos1"}
+
+  %p= link_to_remove_fields "remove question", f, {class: "btn-pos1"}

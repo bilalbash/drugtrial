@@ -1,0 +1,10 @@
+.control-group
+  %label.control-label
+    %abbr{ "title" => "required" } *
+    = time.to_s.humanize
+  .controls
+    .datetimepicker.input-append
+      = f.text_field time, "data-format" => "dd/MM/yyyy hh:mm:ss"
+      %span.add-on
+        %i{ "data-time-icon" => "icon-time", "data-date-icon" => "icon-calendar" }
+
