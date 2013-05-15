@@ -1,14 +1,24 @@
 %h1= Trial
 
 %p
+  %b= "Period"
+  %br
+  = @trial.trial_period
+
+%p
   %b= "Start"
   %br
-  = @trial.start_time
+  = @trial.start_time.strftime("%d %B, %Y. %H:%m")
 
 %p
   %b= "End"
   %br
-  = @trial.end_time
+  = @trial.end_time.strftime("%d %B, %Y. %H:%m")
+
+%p
+  %b= "# of questions"
+  %br
+  = @trial.questions.size
 
 .form-actions
   = link_to 'Back', trials_path, :class => 'btn'

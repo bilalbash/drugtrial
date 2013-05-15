@@ -11,10 +11,11 @@
     - @trials.each do |trial|
       %tr
         %td= trial.id
-        %td= trial.start_time
-        %td= trial.end_time
+        %td= trial.start_time.strftime("%d %B, %Y. %H:%m")
+        %td= trial.end_time.strftime("%d %B, %Y. %H:%m")
         %td
           -#= link_to 'Edit', edit_trial_path(trial), :class => 'btn btn-mini'
+          = link_to 'Show', trial_path(trial), :class => 'btn btn-mini'
           = link_to 'Destroy', trial_path(trial), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger'
 
 = link_to 'Create Trial', new_trial_path, :class => 'btn btn-primary'

@@ -1,18 +1,33 @@
-%h1= "Start Trial"
-- unless @trials.blank?
-  %table.table.table-striped
-    %thead
-      %tr
-        %th= "ID"
-        %th
+.container-fluid.execute-trial.hidden
+  %div#countdown
+  %h3.q-num
+  %p.q-text
+  %p.q-inp
+    .fields
+    .hidden{"data-id" => "", "data-number" => "", "data-type" => ""}
+  %p.q_actions
+    = link_to 'prev', "#", :class => 'btn btn-mini prev steps', disabled: "disabled"
+    = "-"
+    = link_to 'next', "#", :class => 'btn btn-mini next steps'
+    = "-"
+    = link_to 'submit', start_trial_trials_path, :class => 'btn btn-mini submit'
 
-    %tbody
-      - @trials.each do |trial|
+.container-fluid.start-trial
+  %h1= "Start Trial"
+  - unless @trials.blank?
+    %table.table.table-striped
+      %thead
         %tr
-          %td= trial.id
-          %td
-            = link_to 'start trial', "#", :class => 'btn btn-success show-results', "data-id" => trial.id
-- else
-  %p
-    = "sorry, create trial first"
-  = link_to 'Create Trial', new_trial_path, :class => 'btn btn-primary'
+          %th= "ID"
+          %th
+
+      %tbody
+        - @trials.each do |trial|
+          %tr
+            %td= trial.id
+            %td
+              = link_to 'start trial', "#", :class => 'btn btn-success start-execution', "data-id" => trial.id
+  - else
+    %p
+      = "sorry, create trial first"
+    = link_to 'Create Trial', new_trial_path, :class => 'btn btn-primary'
