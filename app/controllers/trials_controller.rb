@@ -51,7 +51,13 @@ class TrialsController < ApplicationController
 	end
 
 	def start_trial
-		@trials = Trial.all
+		if params[:trial_id]
+			payload = {success: true}.merge(Trial.execute_trial(params))
+			render json: payload
+		else
+			@trials = Trial.all
+			@trial = Trial.last
+		end
 	end
 
 	def results
