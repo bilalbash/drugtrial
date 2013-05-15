@@ -32,9 +32,7 @@ $(function() {
                 $("div.hidden"  , mainAnswerSheet).data("number", data.q_num);
                 $("div.hidden"  , mainAnswerSheet).data("type", data.q_type);
                 minutes = data.trial_period;
-                countdown('countdown').done(function(){
-                    alert('times up');
-                });
+
 
                 if (data.q_type == "Descriptive"){
                     $(".fields", mainAnswerSheet).append(descriptiveContent)
@@ -62,6 +60,10 @@ $(function() {
             trial_id    = $this.data("id");
         var URI         = '/trials/start_trial?trial_id=' + trial_id;
 
+        countdown('countdown').done(function(){
+            alert('times up');
+        });
+
         $("div.hidden", mainAnswerSheet).data("id", trial_id);
         $(".container-fluid.start-trial").fadeToggle();
         $(mainAnswerSheet).removeClass("hidden").hide().slideToggle();
@@ -69,7 +71,7 @@ $(function() {
     });
 
     $(".btn.btn-mini.steps").on("click", function(){
-        if ($(".btn.btn-mini.steps.next").attr("disabled") != "disabled"){
+        if ($(this).attr("disabled") != "disabled"){
             var URI  =  '/trials/start_trial?trial_id=' + trial_id;
                 URI  += '&q_num=' + $("div.hidden", mainAnswerSheet).data("number");
                 URI  += '&q_' + $(this).text() + '=' + "true";
