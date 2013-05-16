@@ -63,6 +63,5 @@ class TrialsController < ApplicationController
 
 	def results
 		@trials = Trial.all
-		@trial = Trial.find 12
 	end
 end
