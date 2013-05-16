@@ -47,16 +47,16 @@ class Trial < ActiveRecord::Base
 	end
 
 	def self.evaluate_result(params, trial, question_number)
-		correct_answers = trial.questions[question_number - 1].answer_options.where(correct_option: true).map(&:id).sort
+		correct_answers = trial.questions[question_number - 1].answer_options.where(correct_option: true)
 		user_answers = params[:q_ans]
 		correct_answer = false
 		if user_answers.split(",").size > 1 || correct_answers.size > 1
-			correct_answer = user_answers.split(",").inject([]) {|arr, value| arr << value.to_i} == correct_answers
+			correct_answer = (user_answers.split(",").inject([]) {|array, value| array << value.to_i}).sort == correct_answers.map(&:id).sort
 		else
 			if params[:q_type] == Question::DESCRIPTIVE
-				correct_answer = user_answers == correct_answers.first
+				correct_answer = user_answers == correct_answers.first.description unless correct_answers.first.blank?
 			else
-				correct_answer = user_answers.to_i == correct_answers.first
+				correct_answer = user_answers.to_i == correct_answers.first.id
 			end
 		end
 		if result = trial.results.where(user_id: params[:current_user_id], question_number: question_number).first
