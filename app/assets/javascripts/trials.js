@@ -35,10 +35,9 @@ $(function() {
     var executeTrialRequest = function(URI){
         $.get(URI, function(data) {
             if (data.success){
-                if (data.no_question){
+                if (data.q_stop == true){
+                    $(mainAnswerSheet).slideToggle();
                     $(".container-fluid.start-trial").slideToggle();
-                    $(mainAnswerSheet).hide();
-                    alert("no questions for this trial");
                 } else {
                     if (data.q_last == true){
                         $(".btn.next").attr("disabled", "disabled");
@@ -57,15 +56,13 @@ $(function() {
                     if (data.q_start == true){
                         minutes = data.trial_period;
                     }
-                    if (data.q_stop == true){
-                        window.location = "/trials/start_trial";
-                    }
                     createAnswerSheet(data.q_type, data.q_ans, data.q_num);
                 }
             }
         });
     }
 
+    $(mainAnswerSheet).hide();
     $(".start-execution").on("click", function(){
         var $this       = $(this);
             trial_id    = $this.data("id");
@@ -76,8 +73,8 @@ $(function() {
             }
         });
         $("div.hidden.data-div", mainAnswerSheet).data("id", trial_id);
-        $(".container-fluid.start-trial").fadeToggle();
-        $(mainAnswerSheet).removeClass("hidden").hide().slideToggle();
+        $(".container-fluid.start-trial").slideToggle();
+        $(mainAnswerSheet).slideToggle();
         executeTrialRequest(URI);
     });
 
@@ -85,7 +82,7 @@ $(function() {
         var $this               = $(this),
             thisIsNotDisabled   = $this.attr("disabled") != "disabled",
             URI                 = '/trials/start_trial?trial_id=' + trial_id,
-            hiddenDataDiv = $("div.hidden.data-div", mainAnswerSheet),
+            hiddenDataDiv       = $("div.hidden.data-div", mainAnswerSheet),
             questionType        = hiddenDataDiv.data("type");
 
         if (thisIsNotDisabled){
@@ -104,17 +101,18 @@ $(function() {
                 URI += valueAll;
             }
             if ($this.text() == "submit"){
-                URI += '&q_submit=' + "true";
+                $(".fields", mainAnswerSheet).remove();
+            } else {
+                $(".fields", mainAnswerSheet).hide();
             }
-            $(".fields", mainAnswerSheet).hide();
             executeTrialRequest(URI);
         }
     });
 
     $(".container-fluid.result").hide();
     $(".btn.btn-success.show-results").on("click", function(){
-        $(".container-fluid.list-results").fadeToggle();
-        $(".container-fluid.result.trial" + $(this).data("id")).fadeToggle();
+        $(".container-fluid.list-results").slideToggle();
+        $(".container-fluid.result.trial" + $(this).data("id")).slideToggle();
     });
 
     // timer: count down clock

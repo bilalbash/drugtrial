@@ -9,21 +9,9 @@ class Trial < ActiveRecord::Base
 
 	def self.execute_trial params
 		trial = find(params[:trial_id])
-		questions = trial.questions
-		total_questions = questions.size
-		return {no_question: true} if total_questions == 0
-
-		puts
-		puts
-		puts params.inspect
-		puts
-		puts params[:current_user_id].inspect
-		puts
-		puts
-		puts
-
 		question_number = 0
 		q_start = false
+
 		if params[:q_num].blank?
 			question_number = 1
 			q_start = true
@@ -33,11 +21,13 @@ class Trial < ActiveRecord::Base
 				question_number = params[:q_num].to_i + 1
 			elsif params[:q_prev]
 				question_number = params[:q_num].to_i - 1
+			elsif params[:q_submit]
+				question_number = params[:q_num].to_i
 			end
-
 		end
 
-
+		questions = trial.questions
+		total_questions = questions.size
 		question = questions[question_number - 1]
 		answers = question.answer_options
 		q_last = question_number == total_questions ? true : false

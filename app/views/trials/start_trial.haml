@@ -12,7 +12,10 @@
           %tr
             %td= trial.id
             %td
-              = link_to 'start trial', "#", :class => 'btn btn-success start-execution', "data-id" => trial.id
+              - if trial.questions.blank?
+                = link_to 'start trial', "#", :class => 'btn btn-danger'
+              - else
+                = link_to 'start trial', "#", :class => 'btn btn-success start-execution', "data-id" => trial.id
   - else
     %p
       = "sorry, create trial first"

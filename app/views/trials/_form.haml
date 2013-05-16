@@ -1,17 +1,18 @@
 = simple_form_for @trial, :html => { :class => 'form-horizontal' } do |f|
+  %h1= "Create Trial"
   %fieldset
-    %legend= "Create Trial"
+    %legend
 
     = render :partial => "shared/datetime_picker", :locals => { :f => f, :time => :start_time }
     = render :partial => "shared/datetime_picker", :locals => { :f => f, :time => :end_time }
     = f.input :trial_period, as: :integer
 
     %fieldset
-      %legend= "Questions"
+      %h4= "Questions"
 
       - f.simple_fields_for :questions do |builder|
         = render 'question_fields', :f => builder
-      %p= link_to_add_fields "add another question", f, :questions
+      %p= link_to_add_fields "add another question", f, :questions, { class: "btn btn-success" }
 
     .form-actions
       = f.submit nil, :class => 'btn btn-primary'

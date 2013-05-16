@@ -13,13 +13,11 @@
               %th= "#"
               %th= "questions"
               %th= "user"
-
           %tbody
             %tr
               %td
               %td
               %td= current_user.email
-
             - results.each do |result|
               %tr
                 %td= result.question_number
@@ -32,7 +30,7 @@
             %tr
               %td
               %td
-              %td= ((correct_answers_size * 100)/questions_size > 50) ? "eligible" : "ineligible"
+              %td= ((correct_answers_size * 100)/questions_size >= 50) ? "eligible" : "ineligible"
             %tr
               %td
               %td
