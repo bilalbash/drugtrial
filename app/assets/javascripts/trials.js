@@ -8,12 +8,36 @@ $(function() {
         mainAnswerSheet     = ".container-fluid.execute-trial",
         trial_id            = "";
 
+    var createAnswerSheet = function(question_type, question_answer, question_number){
+        var questionClass = "question" + question_number;
+        if ($(".fields."+questionClass, mainAnswerSheet).html() == undefined) {
+            $(".q-inp", mainAnswerSheet).append('<div class="fields ' + questionClass + '"></div>');
+            if (question_type == "Descriptive"){
+                $(".fields." + questionClass, mainAnswerSheet).append(descriptiveContent)
+            } else if (question_type == "Exact Answer") {
+                var exactAnswer = "";
+                $.each(question_answer, function(i, value) {
+                    exactAnswer += '<input type="radio" name="q_ans" value="' + value[1] + '" />' + value[0] + '<br />';
+                });
+                $(".fields." + questionClass, mainAnswerSheet).append(exactAnswer)
+            } else {
+                var multiAnswer = "";
+                $.each(question_answer, function(i, value) {
+                    multiAnswer += '<input type="checkbox" name="q_ans[]" value="' + value[1] + '" />' + value[0] + '<br />';
+                });
+                $(".fields." + questionClass, mainAnswerSheet).append(multiAnswer)
+            }
+        } else {
+            $(".fields." + questionClass, mainAnswerSheet).show();
+        }
+    }
+
     var executeTrialRequest = function(URI){
         $.get(URI, function(data) {
             if (data.success){
               if (data.no_question){
-                $(".container-fluid.start-trial").fadeToggle();
-                $(mainAnswerSheet).removeClass("hidden").slideUp();
+                $(".container-fluid.start-trial").slideToggle();
+                $(mainAnswerSheet).hide();
                 alert("no questions for this trial");
               } else {
                 if (data.q_last == true){
@@ -26,44 +50,28 @@ $(function() {
                 } else {
                     $(".btn.prev").removeAttr("disabled");
                 }
-
                 $(".q-text"     , mainAnswerSheet).text(data.q_text);
                 $(".q-num"      , mainAnswerSheet).text("Question # " + data.q_num);
                 $("div.hidden"  , mainAnswerSheet).data("number", data.q_num);
                 $("div.hidden"  , mainAnswerSheet).data("type", data.q_type);
-                minutes = data.trial_period;
-
-
-                if (data.q_type == "Descriptive"){
-                    $(".fields", mainAnswerSheet).append(descriptiveContent)
-                } else if (data.q_type == "Exact Answer") {
-                    var exactAnswer = "";
-                    $.each(data.q_ans, function(i, value) {
-                        exactAnswer += '<input type="radio" name="q_ans" value="' + value[1] + '" />' + value[0] + '<br />';
-                    });
-                    $(".fields", mainAnswerSheet).append(exactAnswer)
-                } else {
-                    var multiAnswer = "";
-                    $.each(data.q_ans, function(i, value) {
-                        multiAnswer += '<input type="checkbox" name="q_ans[]" value="' + value[1] + '" />' + value[0] + '<br />';
-                    });
-                    $(".fields", mainAnswerSheet).append(multiAnswer)
+                if (data.q_start == true){
+                    minutes = data.trial_period;
                 }
+                createAnswerSheet(data.q_type, data.q_ans, data.q_num);
               }
             }
         });
     }
 
-
     $(".start-execution").on("click", function(){
         var $this       = $(this);
             trial_id    = $this.data("id");
         var URI         = '/trials/start_trial?trial_id=' + trial_id;
-
         countdown('countdown').done(function(){
-            alert('times up');
+            if ($(mainAnswerSheet).css("display") != "none"){
+                alert('times up');
+            }
         });
-
         $("div.hidden", mainAnswerSheet).data("id", trial_id);
         $(".container-fluid.start-trial").fadeToggle();
         $(mainAnswerSheet).removeClass("hidden").hide().slideToggle();
@@ -82,7 +90,7 @@ $(function() {
             } else {
                 URI += '&q_ans=' + $("#q_ans", mainAnswerSheet).val();
             }
-            $(".fields", mainAnswerSheet).html("");
+            $(".fields", mainAnswerSheet).hide();
             executeTrialRequest(URI);
         }
     });
