@@ -1,0 +1,12 @@
+.container-fluid.execute-trial.hidden
+  %div#countdown
+  %h3.q-num
+  %p.q-text
+  %p.q-inp
+  .hidden.data-div{"data-id" => "", "data-number" => "", "data-type" => ""}
+  %p.q_actions
+    = link_to 'prev', "#", :class => 'btn btn-mini prev step', disabled: "disabled"
+    = "-"
+    = link_to 'next', "#", :class => 'btn btn-mini next step'
+    = "-"
+    = link_to 'submit', "#", :class => 'btn btn-mini last step'

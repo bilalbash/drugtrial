@@ -35,30 +35,33 @@ $(function() {
     var executeTrialRequest = function(URI){
         $.get(URI, function(data) {
             if (data.success){
-              if (data.no_question){
-                $(".container-fluid.start-trial").slideToggle();
-                $(mainAnswerSheet).hide();
-                alert("no questions for this trial");
-              } else {
-                if (data.q_last == true){
-                    $(".btn.next").attr("disabled", "disabled");
+                if (data.no_question){
+                    $(".container-fluid.start-trial").slideToggle();
+                    $(mainAnswerSheet).hide();
+                    alert("no questions for this trial");
                 } else {
-                    $(".btn.next").removeAttr("disabled");
+                    if (data.q_last == true){
+                        $(".btn.next").attr("disabled", "disabled");
+                    } else {
+                        $(".btn.next").removeAttr("disabled");
+                    }
+                    if (data.q_first == true){
+                        $(".btn.prev").attr("disabled", "disabled");
+                    } else {
+                        $(".btn.prev").removeAttr("disabled");
+                    }
+                    $(".q-text"             , mainAnswerSheet).text(data.q_text);
+                    $(".q-num"              , mainAnswerSheet).text("Question # " + data.q_num);
+                    $("div.hidden.data-div" , mainAnswerSheet).data("number", data.q_num);
+                    $("div.hidden.data-div" , mainAnswerSheet).data("type", data.q_type);
+                    if (data.q_start == true){
+                        minutes = data.trial_period;
+                    }
+                    if (data.q_stop == true){
+                        window.location = "/trials/start_trial";
+                    }
+                    createAnswerSheet(data.q_type, data.q_ans, data.q_num);
                 }
-                if (data.q_first == true){
-                    $(".btn.prev").attr("disabled", "disabled");
-                } else {
-                    $(".btn.prev").removeAttr("disabled");
-                }
-                $(".q-text"     , mainAnswerSheet).text(data.q_text);
-                $(".q-num"      , mainAnswerSheet).text("Question # " + data.q_num);
-                $("div.hidden"  , mainAnswerSheet).data("number", data.q_num);
-                $("div.hidden"  , mainAnswerSheet).data("type", data.q_type);
-                if (data.q_start == true){
-                    minutes = data.trial_period;
-                }
-                createAnswerSheet(data.q_type, data.q_ans, data.q_num);
-              }
             }
         });
     }
@@ -69,34 +72,52 @@ $(function() {
         var URI         = '/trials/start_trial?trial_id=' + trial_id;
         countdown('countdown').done(function(){
             if ($(mainAnswerSheet).css("display") != "none"){
-                alert('times up');
+                $(".btn.btn-mini.last.step").click(); // times up
             }
         });
-        $("div.hidden", mainAnswerSheet).data("id", trial_id);
+        $("div.hidden.data-div", mainAnswerSheet).data("id", trial_id);
         $(".container-fluid.start-trial").fadeToggle();
         $(mainAnswerSheet).removeClass("hidden").hide().slideToggle();
         executeTrialRequest(URI);
     });
 
-    $(".btn.btn-mini.steps").on("click", function(){
-        if ($(this).attr("disabled") != "disabled"){
-            var URI  =  '/trials/start_trial?trial_id=' + trial_id;
-                URI  += '&q_num=' + $("div.hidden", mainAnswerSheet).data("number");
-                URI  += '&q_' + $(this).text() + '=' + "true";
-            if ($("div.hidden", mainAnswerSheet).data("type") == "Multi Choice"){
-                var valueAll = [];
-                $('input[name*="q_ans"]:checked').each(function(i, value){valueAll.push($(value).val())});
-                URI += '&q_ans=' + valueAll;
+    $(".btn.btn-mini.step").on("click", function(){
+        var $this               = $(this),
+            thisIsNotDisabled   = $this.attr("disabled") != "disabled",
+            URI                 = '/trials/start_trial?trial_id=' + trial_id,
+            hiddenDataDiv = $("div.hidden.data-div", mainAnswerSheet),
+            questionType        = hiddenDataDiv.data("type");
+
+        if (thisIsNotDisabled){
+            URI += '&q_num=' + hiddenDataDiv.data("number");
+            URI += '&q_type=' + questionType;
+            URI += '&q_' + $this.text() + '=' + "true&q_ans=";
+            if (questionType == "Descriptive"){
+                URI += $("#q_ans:visible", mainAnswerSheet).val();
+            } else if (questionType == "Exact Answer") {
+                URI += $("input[name*='q_ans']:checked:visible").val();
             } else {
-                URI += '&q_ans=' + $("#q_ans", mainAnswerSheet).val();
+                var valueAll = [];
+                $('input[name*="q_ans"]:checked:visible').each(function(i, value){
+                    valueAll.push($(value).val())
+                });
+                URI += valueAll;
+            }
+            if ($this.text() == "submit"){
+                URI += '&q_submit=' + "true";
             }
             $(".fields", mainAnswerSheet).hide();
             executeTrialRequest(URI);
         }
     });
 
-    // timer count down clock
+    $(".container-fluid.result").hide();
+    $(".btn.btn-success.show-results").on("click", function(){
+        $(".container-fluid.list-results").fadeToggle();
+        $(".container-fluid.result.trial" + $(this).data("id")).fadeToggle();
+    });
 
+    // timer: count down clock
     var interval,
         minutes = 0,
         seconds = 5;

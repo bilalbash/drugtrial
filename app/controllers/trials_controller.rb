@@ -52,7 +52,7 @@ class TrialsController < ApplicationController
 
 	def start_trial
 		if params[:trial_id]
-		  params.merge({current_user_id: current_user.id})
+		  params.merge!({current_user_id: current_user.id})
 			payload = {success: true}.merge(Trial.execute_trial(params))
 			render json: payload
 		else
@@ -63,5 +63,6 @@ class TrialsController < ApplicationController
 
 	def results
 		@trials = Trial.all
+		@trial = Trial.find 12
 	end
 end

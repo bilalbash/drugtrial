@@ -3,6 +3,7 @@ class Question < ActiveRecord::Base
 	EXACT_ANSWER = "Exact Answer"
 	DESCRIPTIVE = "Descriptive"
 	TYPES = [[MULTI_CHOICE, MULTI_CHOICE], [EXACT_ANSWER, EXACT_ANSWER], [DESCRIPTIVE, DESCRIPTIVE]]
+
 	attr_accessible :question_text, :question_type, :answer_options_attributes
 
 	belongs_to :trial

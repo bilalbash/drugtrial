@@ -1,0 +1,39 @@
+- unless @trials.blank?
+  - @trials.each do |trial|
+    - results = trial.results.where(user_id: current_user.id)
+    - unless results.blank?
+      - questions = trial.questions
+      - correct_answers_size = (results.map(&:correct_answer) - [false]).size
+      - questions_size = questions.size
+      .container-fluid.result{class: "trial" + trial.id.to_s}
+        %h1= "Result"
+        %table.table.table-striped
+          %thead
+            %tr
+              %th= "#"
+              %th= "questions"
+              %th= "user"
+
+          %tbody
+            %tr
+              %td
+              %td
+              %td= current_user.email
+
+            - results.each do |result|
+              %tr
+                %td= result.question_number
+                %td= questions[result.question_number - 1].question_text
+                %td= result.correct_answer ? "correct" : "incorrect"
+            %tr
+              %td= "results"
+              %td
+              %td= correct_answers_size.to_s + "/" + questions_size.to_s
+            %tr
+              %td
+              %td
+              %td= ((correct_answers_size * 100)/questions_size > 50) ? "eligible" : "ineligible"
+            %tr
+              %td
+              %td
+              %td= link_to 'Results', "#", :class => 'btn btn-success show-results', "data-id" => trial.id

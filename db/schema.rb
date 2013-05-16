@@ -11,17 +11,45 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130513152756) do
+ActiveRecord::Schema.define(:version => 20130516172511) do
 
-  create_table "products", :force => true do |t|
-    t.string   "name"
-    t.decimal  "price"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+  create_table "answer_options", :force => true do |t|
+    t.text     "description"
+    t.boolean  "correct_option"
+    t.integer  "question_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  create_table "questions", :force => true do |t|
+    t.text     "question_text"
+    t.string   "question_type"
+    t.integer  "trial_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  create_table "results", :force => true do |t|
+    t.boolean  "correct_answer"
+    t.integer  "question_number"
+    t.integer  "user_id"
+    t.integer  "trial_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  create_table "trials", :force => true do |t|
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.integer  "trial_period"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
+    t.string   "first_name"
+    t.string   "last_name"
     t.string   "phone"
     t.string   "encrypted_password",     :default => "", :null => false
     t.string   "reset_password_token"
