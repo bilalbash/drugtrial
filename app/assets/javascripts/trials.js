@@ -69,11 +69,6 @@ $(function() {
         var $this       = $(this);
             trial_id    = $this.data("id");
         var URI         = '/trials/start_trial?trial_id=' + trial_id;
-        countdown('countdown').done(function(){
-            if ($(mainAnswerSheet).css("display") != "none"){
-                $(".btn.btn-mini.last.step").click(); // times up
-            }
-        });
         $("div.hidden.data-div", mainAnswerSheet).data("id", trial_id);
         $(".container-fluid.start-trial").slideToggle();
         $(mainAnswerSheet).slideToggle();
