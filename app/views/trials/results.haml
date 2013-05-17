@@ -4,13 +4,13 @@
     %table.table.table-striped
       %thead
         %tr
-          %th= "ID"
+          %th= "name"
           %th
 
       %tbody
         - @trials.each do |trial|
           %tr
-            %td= trial.id
+            %td= trial.name
             %td
               - if trial.results.blank?
                 = link_to 'show result', "#", :class => 'btn btn-danger show-results', "data-id" => trial.id

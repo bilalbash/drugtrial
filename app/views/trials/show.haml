@@ -1,19 +1,24 @@
 %h1= Trial
 
 %p
+  %b= "Name"
+  %br
+  = @trial.name
+
+%p
   %b= "Period"
   %br
   = @trial.trial_period
 
 %p
-  %b= "Start"
+  %b= "Start Time"
   %br
-  = @trial.start_time.strftime("%d %B, %Y. %H:%m")
+  = @trial.start_time.blank? ? "-" : @trial.start_time.strftime("%d %B, %Y. %H:%m")
 
 %p
-  %b= "End"
+  %b= "End Time"
   %br
-  = @trial.end_time.strftime("%d %B, %Y. %H:%m")
+  = @trial.end_time.blank? ? "-" : @trial.end_time.strftime("%d %B, %Y. %H:%m")
 
 %p
   %b= "# of questions"

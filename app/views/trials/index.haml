@@ -2,7 +2,7 @@
 %table.table.table-striped
   %thead
     %tr
-      %th= "ID"
+      %th= "Name"
       %th= "start time"
       %th= "end time"
       %th= "Actions"
@@ -10,9 +10,9 @@
   %tbody
     - @trials.each do |trial|
       %tr
-        %td= trial.id
-        %td= trial.start_time.strftime("%d %B, %Y. %H:%m")
-        %td= trial.end_time.strftime("%d %B, %Y. %H:%m")
+        %td= trial.name
+        %td= trial.start_time.blank? ? "-" : trial.start_time.strftime("%d %B, %Y. %H:%m")
+        %td= trial.end_time.blank? ? "-" : trial.end_time.strftime("%d %B, %Y. %H:%m")
         %td
           -#= link_to 'Edit', edit_trial_path(trial), :class => 'btn btn-mini'
           = link_to 'Show', trial_path(trial), :class => 'btn btn-mini'

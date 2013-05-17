@@ -1,6 +1,6 @@
 class Trial < ActiveRecord::Base
-	validates_presence_of :start_time, :end_time, :trial_period
-	attr_accessible :start_time, :end_time, :trial_period, :questions_attributes
+	validates_presence_of :trial_period, :name
+	attr_accessible :start_time, :end_time, :trial_period, :questions_attributes, :name
 
 	has_many :results, :dependent => :destroy
 

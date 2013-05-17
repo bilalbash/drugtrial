@@ -3,6 +3,7 @@
   %fieldset
     %legend
 
+    = f.input :name
     = render :partial => "shared/datetime_picker", :locals => { :f => f, :time => :start_time }
     = render :partial => "shared/datetime_picker", :locals => { :f => f, :time => :end_time }
     = f.input :trial_period, as: :integer
