@@ -56,7 +56,7 @@ class Trial < ActiveRecord::Base
 			if params[:q_type] == Question::DESCRIPTIVE
 				correct_answer = user_answers == correct_answers.first.description unless correct_answers.first.blank?
 			else
-				correct_answer = user_answers.to_i == correct_answers.first.id
+				correct_answer = user_answers.to_i == correct_answers.first.id unless correct_answers.first.blank?
 			end
 		end
 		if result = trial.results.where(user_id: params[:current_user_id], question_number: question_number).first

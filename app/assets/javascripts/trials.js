@@ -12,8 +12,12 @@ $(function() {
         var questionClass = "question" + question_number;
         if ($(".fields."+questionClass, mainAnswerSheet).html() == undefined) {
             $(".q-inp", mainAnswerSheet).append('<div class="fields ' + questionClass + '"></div>');
-            if (question_type == "Descriptive"){
-                $(".fields." + questionClass, mainAnswerSheet).append(descriptiveContent)
+            if (question_type == "Multi Choice"){
+                var multiAnswer = "";
+                $.each(question_answer, function(i, value) {
+                    multiAnswer += '<input type="checkbox" name="q_ans[]" value="' + value[1] + '" />' + value[0] + '<br />';
+                });
+                $(".fields." + questionClass, mainAnswerSheet).append(multiAnswer);
             } else if (question_type == "Exact Answer") {
                 var exactAnswer = "";
                 $.each(question_answer, function(i, value) {
@@ -21,11 +25,7 @@ $(function() {
                 });
                 $(".fields." + questionClass, mainAnswerSheet).append(exactAnswer)
             } else {
-                var multiAnswer = "";
-                $.each(question_answer, function(i, value) {
-                    multiAnswer += '<input type="checkbox" name="q_ans[]" value="' + value[1] + '" />' + value[0] + '<br />';
-                });
-                $(".fields." + questionClass, mainAnswerSheet).append(multiAnswer)
+                $(".fields." + questionClass, mainAnswerSheet).append(descriptiveContent);
             }
         } else {
             $(".fields." + questionClass, mainAnswerSheet).show();
@@ -38,6 +38,7 @@ $(function() {
                 if (data.q_stop == true){
                     $(mainAnswerSheet).slideToggle();
                     $(".container-fluid.start-trial").slideToggle();
+                    $(".fields", mainAnswerSheet).remove();
                 } else {
                     if (data.q_last == true){
                         $(".btn.next").attr("disabled", "disabled");
@@ -56,6 +57,7 @@ $(function() {
                     if (data.q_start == true){
                         minutes = data.trial_period;
                     }
+                    $(".fields", mainAnswerSheet).hide();
                     createAnswerSheet(data.q_type, data.q_ans, data.q_num);
                 }
             }
@@ -101,9 +103,9 @@ $(function() {
                 URI += valueAll;
             }
             if ($this.text() == "submit"){
-                $(".fields", mainAnswerSheet).remove();
+
             } else {
-                $(".fields", mainAnswerSheet).hide();
+
             }
             executeTrialRequest(URI);
         }
