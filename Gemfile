@@ -41,3 +41,4 @@ gem 'haml'
 
 gem 'simple_form'
 gem 'devise'
+gem 'newrelic_rpm'

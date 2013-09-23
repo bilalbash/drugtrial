@@ -1,6 +1,7 @@
 DrugTrial::Application.routes.draw do
   devise_for :users
 
+  resources :users
   resources :trials do
 	  collection do
 		  get :results
