@@ -60,6 +60,10 @@ DrugTrial::Application.routes.draw do
   # just remember to delete public/index.html.
   root :to => 'application#welcome'
 
+	get '/t_results' => 'application#t_results'
+	post '/t_results' => 'application#t_results'
+
+
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
